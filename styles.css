@@ -1,0 +1,18 @@
+#walks{
+	
+}
+
+#walks li{
+	display:inline-block;
+	width:20%;
+	height:0;
+	padding-bottom:20%;
+	position:relative;
+	overflow:hidden;
+}
+
+#walks li img{
+	min-width:100%;
+	min-height:100%;
+	position:absolute;
+}
