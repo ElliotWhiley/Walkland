@@ -11,14 +11,17 @@
         padding: 50px;
       }
     </style>
-	<link rel="stylesheet" href="/path/to/flickity.css" media="screen">
-	<script src="/path/to/flickity.pkgd.min.js"></script>
+	<!--<link rel="stylesheet" href="/path/to/flickity.css" media="screen">-->
+	<!--<script src="/path/to/flickity.pkgd.min.js"></script>-->
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxYJTC2MrJe_f-6b53TiaaHjonWC0EPxg"></script>
     <script>
     $(document).ready(function() {
 		
 		// Google API Key = AIzaSyAxYJTC2MrJe_f-6b53TiaaHjonWC0EPxg
+		
+		// Flickr key
+		var key = "a86e25fd6e699aad4601106467321bf3";
 		
         // Your LINZ Data Service API Key
         var ldsApiKey = "e37f7e03afd44129b1186e7f7640effb";
@@ -40,7 +43,7 @@
 		
 		// id of track selected by user
 		var selectedTrack = 0;
-
+		
         /**
          * Adds a message to the `messageNode`
          *
@@ -52,20 +55,11 @@
             $('#messages').append(newNode);
         }
 
-        /**
-         * Given a successful data query, returns the value for the layer,
-         * or null if the point was invalid.
-         *
-         * @param data  The object returned by the LDS API
-         * @return float|null
-         */
-        var getNameFromResponse = function(data) {
-            var layerData = data.vectorQuery.layers[ldsLayerID];
-            if (layerData.status === "ok") {
-                return layerData.bands[0].value;
-            }
-            return null;
-        }
+		var getNameByID = function(id){
+			for (var i = 0; i < myTracks.length; i++) {
+				//if 
+			}
+		}
 		
 		// Saves geographical data obtained from API call to be used later
 		var processData = function(data) {
@@ -86,36 +80,55 @@
 					j++;
 				}
 			}
-			console.log(myTracks);
+			//console.log(myTracks);
 		}
 		
+		//console.log(myTracks);
+		
 		// Filters out 'null' named tracks and displays the name of all other tracks
-		var displayData = function(data) {
+		var displayData = function() {
 			var $walks = $("#walks");
-			for (var i = 0; i < maxResults; i++){
+			for (var i = 0; i < myTracks.length; i++){
 				// Name of track from API
-				var trackName = data.vectorQuery.layers["364"].features[i].properties.name;
+				//console.log(myTracks[i]);
+				var trackName = myTracks[i].name;
+				var trackID = myTracks[i].id;	
+				var trackLatitude = myTracks[i].coordinates[0][1];
+				console.log(myTracks);
+				var trackLongitude = myTracks[i].coordinates[0][0];
 				if (trackName != null) {
-//				$walks.append("<li>" + data.vectorQuery.layers["364"].features[i].properties.name + "</li>");
-				$walks.append("<button>" + trackName + "</button>");
+	//				$walks.append("<li>" + data.vectorQuery.layers["364"].features[i].properties.name + "</li>");
+					//$walks.append("<a href='#' data-trackID='" + trackID + "'>" + trackName + "</a>");
+					getPhotos(trackName, trackLatitude, trackLongitude, 1); 
+					$(document).on("click", "#walks a", function(ev) {
+						ev.preventDefault();
+						var walkInfo = "<div>Title: " + myTracks + " Length:";
+					});
 				}
 			}
 		}
 		
+				// Initialises Flickr API call to return images of the selected image
+				var getPhotos = function(walkwayName,latitude,longitude,numberOfPhotos){
+					//$('.main-gallery').flickity({
+					//	// options
+					//	cellAlign: 'left',
+					//	contain: true
+					//});
+					console.log(latitude);
+					$.getJSON('https://api.flickr.com/services/rest/?&method=flickr.photos.search&text="' + walkwayName + '"&format=json&api_key=' + key + '&per_page=' + numberOfPhotos + '&lat=' + latitude + '&lon=' + longitude + '&radius=30&radius_units=km&extras=url,geo&has_geo=1&jsoncallback=?',function(data){
+						var $walks = $("#walks");
+						//console.log(data);
+						 
+						$.each(data.photos.photo, function(index, photo) {
+							$walks.append('<li><img src="https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '.jpg' + '"/></li>');
+						});
+					});
+				}
+		
 		// Initialises Flickr API call to return images of the selected image
-		var getPhotos = function(walkwayName,latitude,longitude,numberOfPhotos){
-			$('.main-gallery').flickity({
-				// options
-		        cellAlign: 'left',
-				contain: true
-			});
+		var getImage = function(name, latitude, longitude, numberOfImages) {
 			
-			$.getJSON('https://api.flickr.com/services/rest/?&method=flickr.photos.search&text="' + walkwayName + '"&format=json&api_key=' + key + '&per_page=' + numberOfPhotos + '&lat=' + latitude + '&lon=' + longitude + '&radius=30&radius_units=km&extras=url,geo&has_geo=1&jsoncallback=?',function(data){
-				var $walks = $("#walks");
-				$.each(data.photos.photo, function(index, photo) {
-					$walks.append('<li><img src="https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '.jpg' + '"/></li>');
-				});
-			});
 		}
 		
         /**
@@ -154,13 +167,11 @@
             request.done(
                 function(data) {
                     // PROCESS DATA FROM API HERE
-                    var name = getNameFromResponse(data);
                 //    deferred.resolve(elevation);
 					console.log(data);
-					
 					processData(data);
-					
 					displayData(data);
+					//console.log(myTracks);
                 }
             );
 
