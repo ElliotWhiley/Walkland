@@ -101,8 +101,14 @@
 		}
 		
 		// Initialises Flickr API call to return images of the selected image
-		var getImage = function(name, latitude, longitude, numberOfImages) {
-			
+		var getPhotos = function(walkwayName,latitude,longitude,numberOfPhotos){
+			$.getJSON('https://api.flickr.com/services/rest/?&method=flickr.photos.search&text="' + walkwayName + '"&format=json&api_key=' + key + '&per_page=' + numberOfPhotos + '&lat=' + latitude + '&lon=' + longitude + '&radius=30&radius_units=km&extras=url,geo&has_geo=1&jsoncallback=?',function(data){
+				var $photos = $("#photos");
+				$.each(data.photos.photo, function(index, photo) {
+					console.log(photo);
+					$photos.append('<li><img src="https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '.jpg' + '"/></li>');
+				});
+			});
 		}
 		
         /**
