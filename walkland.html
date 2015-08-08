@@ -57,7 +57,9 @@
 
 		var getNameByID = function(id){
 			for (var i = 0; i < myTracks.length; i++) {
-				//if 
+				if (myTracks[i].id == id) {
+					return myTracks[i].name;
+				}
 			}
 		}
 		
@@ -99,17 +101,18 @@
 				if (trackName != null) {
 	//				$walks.append("<li>" + data.vectorQuery.layers["364"].features[i].properties.name + "</li>");
 					//$walks.append("<a href='#' data-trackID='" + trackID + "'>" + trackName + "</a>");
-					getPhotos(trackName, trackLatitude, trackLongitude, 1); 
+					getPhotos(trackName, trackLatitude, trackLongitude, 1, trackID); 
 					$(document).on("click", "#walks a", function(ev) {
 						ev.preventDefault();
-						var walkInfo = "<div>Title: " + myTracks + " Length:";
+						var walkInfo = "<div>Title: " + myTracks[i].name + " Length:";
+						
 					});
 				}
 			}
 		}
 		
 				// Initialises Flickr API call to return images of the selected image
-				var getPhotos = function(walkwayName,latitude,longitude,numberOfPhotos){
+				var getPhotos = function(walkwayName,latitude,longitude,numberOfPhotos, trackID){
 					//$('.main-gallery').flickity({
 					//	// options
 					//	cellAlign: 'left',
@@ -121,7 +124,7 @@
 						//console.log(data);
 						 
 						$.each(data.photos.photo, function(index, photo) {
-							$walks.append('<li><img src="https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '.jpg' + '"/></li>');
+							$walks.append("<li><a href='#' data-trackID='" + trackID + "'> <img src='https://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg" + "'/> </a></li>");
 						});
 					});
 				}
