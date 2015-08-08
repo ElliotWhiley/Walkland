@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
     <meta charset="utf-8">  
     <style>
@@ -71,60 +71,60 @@
 				var trackCoordinates = data.vectorQuery.layers["364"].features[i].geometry.coordinates;
 				if (trackName != null) {
 					// Save track variable with associated variables
-					
-					var totalLength=0;
-				
-						for (var z = 0; z < trackCoordinates.length-1; z++) { 
-							
-							var ArrayLat=new Array(trackCoordinates.length);
-							var ArrayLong=new Array(trackCoordinates.length);
-							
-							
-							ArrayLat[z]=trackCoordinates[z][0];
-							ArrayLong[z]=trackCoordinates[z][1];
-							ArrayLat[z+1]=trackCoordinates[z+1][0];
-							ArrayLong[z+1]=trackCoordinates[z+1][1];
-							
-						
-							var x=lengthOfWalk(ArrayLat[z],ArrayLong[z],ArrayLat[z+1],ArrayLong[z+1]);
-							
-							totalLength=totalLength+x;
-						}
-					
-						var	track = {
-							id: j,
-							name: trackName,
-							coordinates: trackCoordinates,
-							trackLength: totalLength
-						};
-						
+					var	track = {
+						id: j,
+						name: trackName,
+						coordinates: trackCoordinates
+					};
 					myTracks[j] = track;
 					j++;
 				}
 			}
-			console.log(myTracks);
-			
-			
-			
-			
-		
-			
-			
-			
+			//console.log(myTracks);
 		}
 		
+		//console.log(myTracks);
+		
 		// Filters out 'null' named tracks and displays the name of all other tracks
-		var displayData = function(data) {
+		var displayData = function() {
 			var $walks = $("#walks");
-			for (var i = 0; i < maxResults; i++){
+			for (var i = 0; i < myTracks.length; i++){
 				// Name of track from API
-				var trackName = data.vectorQuery.layers["364"].features[i].properties.name;
+				//console.log(myTracks[i]);
+				var trackName = myTracks[i].name;
+				var trackID = myTracks[i].id;	
+				var trackLatitude = myTracks[i].coordinates[0][1];
+				console.log(myTracks);
+				var trackLongitude = myTracks[i].coordinates[0][0];
 				if (trackName != null) {
-//				$walks.append("<li>" + data.vectorQuery.layers["364"].features[i].properties.name + "</li>");
-				$walks.append("<button>" + trackName + "</button>");
+	//				$walks.append("<li>" + data.vectorQuery.layers["364"].features[i].properties.name + "</li>");
+					//$walks.append("<a href='#' data-trackID='" + trackID + "'>" + trackName + "</a>");
+					getPhotos(trackName, trackLatitude, trackLongitude, 1); 
+					$(document).on("click", "#walks a", function(ev) {
+						ev.preventDefault();
+						var walkInfo = "<div>Title: " + myTracks + " Length:";
+					});
 				}
 			}
 		}
+		
+				// Initialises Flickr API call to return images of the selected image
+				var getPhotos = function(walkwayName,latitude,longitude,numberOfPhotos){
+					//$('.main-gallery').flickity({
+					//	// options
+					//	cellAlign: 'left',
+					//	contain: true
+					//});
+					console.log(latitude);
+					$.getJSON('https://api.flickr.com/services/rest/?&method=flickr.photos.search&text="' + walkwayName + '"&format=json&api_key=' + key + '&per_page=' + numberOfPhotos + '&lat=' + latitude + '&lon=' + longitude + '&radius=30&radius_units=km&extras=url,geo&has_geo=1&jsoncallback=?',function(data){
+						var $walks = $("#walks");
+						//console.log(data);
+						 
+						$.each(data.photos.photo, function(index, photo) {
+							$walks.append('<li><img src="https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '.jpg' + '"/></li>');
+						});
+					});
+				}
 		
 		// Initialises Flickr API call to return images of the selected image
 		var getImage = function(name, latitude, longitude, numberOfImages) {
@@ -207,21 +207,6 @@
                 logMessage("Couldn't get the elevation here :(");
             });
         });
-		
-		
-		/**Function to allow us to find the distance between two coordinates**/
-		
-		function lengthOfWalk(lat1, lon1, lat2, lon2) {
-			var R = 6371;
-			var a = 
-					 0.5 - Math.cos((lat2 - lat1) * Math.PI / 180)/2 + 
-					 Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
-					 (1 - Math.cos((lon2 - lon1) * Math.PI / 180))/2;
-
-			return R * 2 * Math.asin(Math.sqrt(a));
-		}
-		
-		
 		
 		function initialize() {
 		var mapOptions = {
