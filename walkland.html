@@ -72,11 +72,33 @@
 				// Array of track coordinates from API
 				var trackCoordinates = data.vectorQuery.layers["364"].features[i].geometry.coordinates;
 				if (trackName != null) {
+				
+				
+					var totalLength=0;
+				
+					for (var z = 0; z < trackCoordinates.length-1; z++) { 
+							
+						var ArrayLat=new Array(trackCoordinates.length);
+						var ArrayLong=new Array(trackCoordinates.length);
+							
+							
+						ArrayLat[z]=trackCoordinates[z][0];
+						ArrayLong[z]=trackCoordinates[z][1];
+						ArrayLat[z+1]=trackCoordinates[z+1][0];
+						ArrayLong[z+1]=trackCoordinates[z+1][1];
+							
+						
+						var x=lengthOfWalk(ArrayLat[z],ArrayLong[z],ArrayLat[z+1],ArrayLong[z+1]);
+							
+						totalLength=totalLength+x;
+					}
+				
 					// Save track variable with associated variables
 					var	track = {
 						id: j,
 						name: trackName,
-						coordinates: trackCoordinates
+						coordinates: trackCoordinates,
+						trackLength: totalLength
 					};
 					myTracks[j] = track;
 					j++;
