@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
     <meta charset="utf-8">  
     <style>
@@ -58,7 +58,9 @@
 
 		var getNameByID = function(id){
 			for (var i = 0; i < myTracks.length; i++) {
-				//if 
+				if (myTracks[i].id == id) {
+					return myTracks[i].name;
+				}
 			}
 		}
 		
@@ -71,11 +73,33 @@
 				// Array of track coordinates from API
 				var trackCoordinates = data.vectorQuery.layers["364"].features[i].geometry.coordinates;
 				if (trackName != null) {
+				
+				
+					var totalLength=0;
+				
+					for (var z = 0; z < trackCoordinates.length-1; z++) { 
+							
+						var ArrayLat=new Array(trackCoordinates.length);
+						var ArrayLong=new Array(trackCoordinates.length);
+							
+							
+						ArrayLat[z]=trackCoordinates[z][0];
+						ArrayLong[z]=trackCoordinates[z][1];
+						ArrayLat[z+1]=trackCoordinates[z+1][0];
+						ArrayLong[z+1]=trackCoordinates[z+1][1];
+							
+						
+						var x=lengthOfWalk(ArrayLat[z],ArrayLong[z],ArrayLat[z+1],ArrayLong[z+1]);
+							
+						totalLength=totalLength+x;
+					}
+				
 					// Save track variable with associated variables
 					var	track = {
 						id: j,
 						name: trackName,
-						coordinates: trackCoordinates
+						coordinates: trackCoordinates,
+						trackLength: totalLength
 					};
 					myTracks[j] = track;
 					j++;
@@ -100,17 +124,18 @@
 				if (trackName != null) {
 	//				$walks.append("<li>" + data.vectorQuery.layers["364"].features[i].properties.name + "</li>");
 					//$walks.append("<a href='#' data-trackID='" + trackID + "'>" + trackName + "</a>");
-					getPhotos(trackName, trackLatitude, trackLongitude, 1); 
+					getPhotos(trackName, trackLatitude, trackLongitude, 1, trackID); 
 					$(document).on("click", "#walks a", function(ev) {
 						ev.preventDefault();
-						var walkInfo = "<div>Title: " + myTracks + " Length:";
+						var walkInfo = "<div>Title: " + myTracks[i].name + " Length:";
+						
 					});
 				}
 			}
 		}
 		
 				// Initialises Flickr API call to return images of the selected image
-				var getPhotos = function(walkwayName,latitude,longitude,numberOfPhotos){
+				var getPhotos = function(walkwayName,latitude,longitude,numberOfPhotos, trackID){
 					//$('.main-gallery').flickity({
 					//	// options
 					//	cellAlign: 'left',
@@ -122,7 +147,7 @@
 						//console.log(data);
 						 
 						$.each(data.photos.photo, function(index, photo) {
-							$walks.append('<li><img src="https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '.jpg' + '"/></li>');
+							$walks.append("<li><a href='#' data-trackID='" + trackID + "'> <img src='https://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg" + "'/> </a></li>");
 						});
 					});
 				}
@@ -209,6 +234,20 @@
             });
         });
 		
+		
+		/**Function to allow us to find the distance between two coordinates**/
+		
+		function lengthOfWalk(lat1, lon1, lat2, lon2) {
+			var R = 6371;
+			var a = 
+					 0.5 - Math.cos((lat2 - lat1) * Math.PI / 180)/2 + 
+					 Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+					 (1 - Math.cos((lon2 - lon1) * Math.PI / 180))/2;
+
+			return R * 2 * Math.asin(Math.sqrt(a));
+		}
+		
+		
 		function initialize() {
 		var mapOptions = {
 		  center: { lat: latitudeCentre, lng: longitudeCentre},
@@ -222,6 +261,9 @@
 			new google.maps.LatLng(-36.97704773721164, 174.52684269985488),
 			new google.maps.LatLng(-37.00174050001743, 174.52928740436624)
 		];		
+		
+		
+		
 		
 		//var flightPlanCoordinates = [];
 		//for (var i = 0; i < myTracks[selectedTrack.coordinates.length]; i++){
