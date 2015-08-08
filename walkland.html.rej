@@ -1,0 +1,104 @@
+diff a/walkland.html b/walkland.html	(rejected hunks)
+@@ -71,61 +71,61 @@
+ 				var trackCoordinates = data.vectorQuery.layers["364"].features[i].geometry.coordinates;
+ 				if (trackName != null) {
+ 					// Save track variable with associated variables
+-					var	track = {
+-						id: j,
+-						name: trackName,
+-						coordinates: trackCoordinates
+-					};
++					
++					var totalLength=0;
++				
++						for (var z = 0; z < trackCoordinates.length-1; z++) { 
++							
++							var ArrayLat=new Array(trackCoordinates.length);
++							var ArrayLong=new Array(trackCoordinates.length);
++							
++							
++							ArrayLat[z]=trackCoordinates[z][0];
++							ArrayLong[z]=trackCoordinates[z][1];
++							ArrayLat[z+1]=trackCoordinates[z+1][0];
++							ArrayLong[z+1]=trackCoordinates[z+1][1];
++							
++						
++							var x=lengthOfWalk(ArrayLat[z],ArrayLong[z],ArrayLat[z+1],ArrayLong[z+1]);
++							
++							totalLength=totalLength+x;
++						}
++					
++						var	track = {
++							id: j,
++							name: trackName,
++							coordinates: trackCoordinates,
++							trackLength: totalLength
++						};
++						
+ 					myTracks[j] = track;
+ 					j++;
+ 				}
+ 			}
+-			//console.log(myTracks);
+-		}
++			console.log(myTracks);
++			
++			
++			
++			
+ 		
+-		//console.log(myTracks);
++			
++			
++			
++		}
+ 		
+ 		// Filters out 'null' named tracks and displays the name of all other tracks
+-		var displayData = function() {
++		var displayData = function(data) {
+ 			var $walks = $("#walks");
+-			for (var i = 0; i < myTracks.length; i++){
++			for (var i = 0; i < maxResults; i++){
+ 				// Name of track from API
+-				//console.log(myTracks[i]);
+-				var trackName = myTracks[i].name;
+-				var trackID = myTracks[i].id;	
+-				var trackLatitude = myTracks[i].coordinates[0][1];
+-				console.log(myTracks);
+-				var trackLongitude = myTracks[i].coordinates[0][0];
++				var trackName = data.vectorQuery.layers["364"].features[i].properties.name;
+ 				if (trackName != null) {
+-	//				$walks.append("<li>" + data.vectorQuery.layers["364"].features[i].properties.name + "</li>");
+-					//$walks.append("<a href='#' data-trackID='" + trackID + "'>" + trackName + "</a>");
+-					getPhotos(trackName, trackLatitude, trackLongitude, 1); 
+-					$(document).on("click", "#walks a", function(ev) {
+-						ev.preventDefault();
+-						var walkInfo = "<div>Title: " + myTracks + " Length:";
+-					});
++//				$walks.append("<li>" + data.vectorQuery.layers["364"].features[i].properties.name + "</li>");
++				$walks.append("<button>" + trackName + "</button>");
+ 				}
+ 			}
+ 		}
+ 		
+-				// Initialises Flickr API call to return images of the selected image
+-				var getPhotos = function(walkwayName,latitude,longitude,numberOfPhotos){
+-					//$('.main-gallery').flickity({
+-					//	// options
+-					//	cellAlign: 'left',
+-					//	contain: true
+-					//});
+-					console.log(latitude);
+-					$.getJSON('https://api.flickr.com/services/rest/?&method=flickr.photos.search&text="' + walkwayName + '"&format=json&api_key=' + key + '&per_page=' + numberOfPhotos + '&lat=' + latitude + '&lon=' + longitude + '&radius=30&radius_units=km&extras=url,geo&has_geo=1&jsoncallback=?',function(data){
+-						var $walks = $("#walks");
+-						//console.log(data);
+-						 
+-						$.each(data.photos.photo, function(index, photo) {
+-							$walks.append('<li><img src="https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '.jpg' + '"/></li>');
+-						});
+-					});
+-				}
+-		
+ 		// Initialises Flickr API call to return images of the selected image
+ 		var getImage = function(name, latitude, longitude, numberOfImages) {
+ 			
