@@ -11,7 +11,7 @@
 	position:relative;
 	overflow:hidden;
 	margin:1%;
-	border-radius: 20px;
+	border-radius: 5%;
 }
 
 #walks li a{
@@ -37,6 +37,13 @@ body{
 	background-color:#727272;
 	margin:0;
 	padding:0;
+}
+
+#logo{
+	margin-top:5px;
+	margin-left:1%;
+	max-height:80%;
+	max-width:10%;
 }
 
 html{
