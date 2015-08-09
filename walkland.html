@@ -93,19 +93,23 @@
 							
 						totalLength=totalLength+x;
 					}
+					
+					
+					var walkingTime = totalLength/0.036;
 				
 					// Save track variable with associated variables
 					var	track = {
 						id: j,
 						name: trackName,
 						coordinates: trackCoordinates,
-						trackLength: totalLength
+						trackLength: totalLength,
+						timeInMinutes: walkingTime
 					};
 					myTracks[j] = track;
 					j++;
 				}
 			}
-			//console.log(myTracks);
+			console.log(myTracks);
 		}
 		
 		//console.log(myTracks);
