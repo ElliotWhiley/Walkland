@@ -1,16 +1,6 @@
 <<!DOCTYPE html>
 <html lang="en">
     <meta charset="utf-8">  
-    <style>
-    * { font-family: helvetica, sans-serif; }
-    ol li:last-child { color: green; }
-	    html, body, #map-canvas {
-        height: 80%;
-		width: 80%;
-        margin: 0;
-        padding: 50px;
-      }
-    </style>
 	<!--<link rel="stylesheet" href="/path/to/flickity.css" media="screen">-->
 	<!--<script src="/path/to/flickity.pkgd.min.js"></script>-->
 	<link rel="stylesheet" href="styles.css" media="screen">
@@ -147,15 +137,14 @@
 						//console.log(data);
 						 
 						$.each(data.photos.photo, function(index, photo) {
-							$walks.append("<li><a href='#' data-trackID='" + trackID + "'> <img src='https://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg" + "'/> </a></li>");
+							var imageString = "url(https://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg)";
+							//$walks.append("<li><a href='#' data-trackID='" + trackID + "'> <img src='https://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg" + "'/> </a></li>");
+							var $walk = $("<li><a href='#' data-trackID='" + trackID + "'></a></li>");
+							$walk.find("a").css("background-image",imageString);
+							$walks.append($walk);
 						});
-					});
+					})
 				}
-		
-		// Initialises Flickr API call to return images of the selected image
-		var getImage = function(name, latitude, longitude, numberOfImages) {
-			
-		}
 		
         /**
          * Initiates a GET request to the LINZ Data Service for the elevation layer,
@@ -292,8 +281,6 @@
     </script>
     <body>
 		<div id="map-canvas"></div>	
-		<button onclick="saveTracks()">Show map</button>
-        <h1>Tracks near you:</h1>
         <ol id="walks"></ol>
     </body>
 </html>
