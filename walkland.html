@@ -4,6 +4,7 @@
 	<!--<link rel="stylesheet" href="/path/to/flickity.css" media="screen">-->
 	<!--<script src="/path/to/flickity.pkgd.min.js"></script>-->
 	<link rel="stylesheet" href="styles.css" media="screen">
+	<style>#map-canvas{ width: 200px; height: 200px; display: block; }</style>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxYJTC2MrJe_f-6b53TiaaHjonWC0EPxg"></script>
     <script>
@@ -46,10 +47,10 @@
             $('#messages').append(newNode);
         }
 
-		var getNameByID = function(id){
+		var getTrackByID = function(id){
 			for (var i = 0; i < myTracks.length; i++) {
 				if (myTracks[i].id == id) {
-					return myTracks[i].name;
+					return myTracks[i];
 				}
 			}
 		}
@@ -117,18 +118,25 @@
 				var trackID = myTracks[i].id;	
 				var trackLatitude = myTracks[i].coordinates[0][1];
 				var trackLongitude = myTracks[i].coordinates[0][0];
+				var trackLength = myTracks[i].trackLength;
 				if (trackName != null) {
 	//				$walks.append("<li>" + data.vectorQuery.layers["364"].features[i].properties.name + "</li>");
 					//$walks.append("<a href='#' data-trackID='" + trackID + "'>" + trackName + "</a>");
 					getPhotos(trackName, trackLatitude, trackLongitude, 1, trackID); 
-					$(document).on("click", "#walks a", function(ev) {
-						ev.preventDefault();
-						//var walkInfo = "<div>Title: " + myTracks[i].name + " Length:";
-						//$walks.append("<div>" + trackID + trackName + trackLength + "</div>");
-						initialize();
-					});
 				}
 			}
+			$(document).on("click", "#walks a", function(ev) {
+				ev.preventDefault();
+				var track = getTrackByID($(this).data("track-id"));
+				var $walkInfo = $("<div>Title: " + track.name + " Length: " + track.trackLength.toFixed(1) + "km<button id='closeButton'>&times;</button></div>");
+				$walkInfo.append("<div id='map-canvas'></div>");
+				$("#walk-info").prepend($walkInfo);
+				showMap($(this).data("track-id"));
+			});
+			$(document).on("click", "#closeButton", function(ev) {
+				ev.preventDefault();
+				$(this).parent().remove();
+			});
 			//console.log(myTracks);
 		}
 		//console.log(myTracks);
@@ -142,12 +150,12 @@
 					//});
 					$.getJSON('https://api.flickr.com/services/rest/?&method=flickr.photos.search&text="' + walkwayName + '"&format=json&api_key=' + key + '&per_page=' + numberOfPhotos + '&lat=' + latitude + '&lon=' + longitude + '&radius=30&radius_units=km&extras=url,geo&has_geo=1&jsoncallback=?',function(data){
 						var $walks = $("#walks");
-						//console.log(data);
+						console.log(data);
 						 
 						$.each(data.photos.photo, function(index, photo) {
 							var imageString = "url(https://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg)";
-							//$walks.append("<li><a href='#' data-trackID='" + trackID + "'> <img src='https://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg" + "'/> </a></li>");
-							var $walk = $("<li><a href='#' data-trackID='" + trackID + "'></a></li>");
+							//$walks.append("<li><a href='#' data-track-id='" + trackID + "'> <img src='https://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg" + "'/> </a></li>");
+							var $walk = $("<li><a href='#' data-track-id='" + trackID + "'></a></li>");
 							$walk.find("a").css("background-image",imageString);
 							$walks.append($walk);
 						});
@@ -258,11 +266,14 @@
 		}
 		
 		
-		function initialize() {
+		function showMap(trackID) {
+		var track = getTrackByID(trackID);		
 		var mapOptions = {
-		  center: { lat: latitudeCentre, lng: longitudeCentre},
-		  zoom: 12
+		  center: { lat: track.coordinates[0][1], lng: track.coordinates[0][0] },
+		  //center: { lat: track.coordinates[0,1], lng: longitudeCentre },
+		  zoom: 11
 		};
+		
 		var map = new google.maps.Map(document.getElementById('map-canvas'),
 			mapOptions);
 			
@@ -272,11 +283,19 @@
 		//	new google.maps.LatLng(-37.00174050001743, 174.52928740436624)
 		//];		
 		
-		var selectedTrack = 0;
+		//var selectedTrack = 0;
+
+		//var selectedTrack = track.id;
 		var flightPlanCoordinates = [];
+<<<<<<< HEAD
 		//console.log(myTracks);
 		for (var i = 0; i < myTracks[selectedTrack].coordinates.length; i++){
 			flightPlanCoordinates[i] = new google.maps.LatLng(myTracks[selectedTrack].coordinates[i][1], myTracks[selectedTrack].coordinates[i][0]);
+=======
+		console.log(myTracks);
+		for (var i = 0; i < track.coordinates.length; i++){
+			flightPlanCoordinates[i] = new google.maps.LatLng(track.coordinates[i][1], track.coordinates[i][0]);
+>>>>>>> fa5eb36d1475dac99730665f0c32aaad7a5f7ac3
 			//flightPlanCoordinates[i] = myTracks[selectedTrack].coordinates;
 			//flightPlanCoordinates[i][0] = myTracks[selectedTrack].coordinates[i][1];
 			//flightPlanCoordinates[i][1] = myTracks[selectedTrack].coordinates[i][0];
@@ -303,7 +322,10 @@
 	
     </script>
     <body>
-		<div id="map-canvas"></div>
+		<div class="navigation-bar">
+			<img src="logo.svg" id="logo">
+		</div>
+		<div id="walk-info"></div>
         <ol id="walks"></ol>
     </body>
 </html>
