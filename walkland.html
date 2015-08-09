@@ -45,14 +45,6 @@
             newNode.text(text);
             $('#messages').append(newNode);
         }
-
-		var getNameByID = function(id){
-			for (var i = 0; i < myTracks.length; i++) {
-				if (myTracks[i].id == id) {
-					return myTracks[i].name;
-				}
-			}
-		}
 		
 		// Saves geographical data obtained from API call to be used later
 		var processData = function(data) {
@@ -99,7 +91,7 @@
 					j++;
 				}
 			}
-			console.log(myTracks);
+			//console.log(myTracks);
 		}
 		
 		//console.log(myTracks);
@@ -136,7 +128,7 @@
 					//});
 					$.getJSON('https://api.flickr.com/services/rest/?&method=flickr.photos.search&text="' + walkwayName + '"&format=json&api_key=' + key + '&per_page=' + numberOfPhotos + '&lat=' + latitude + '&lon=' + longitude + '&radius=30&radius_units=km&extras=url,geo&has_geo=1&jsoncallback=?',function(data){
 						var $walks = $("#walks");
-						//console.log(data);
+						console.log(data);
 						 
 						$.each(data.photos.photo, function(index, photo) {
 							var imageString = "url(https://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg)";
@@ -283,6 +275,7 @@
     </script>
     <body>
 		<div id="map-canvas"></div>	
+		<div class="navigation-bar"></div>
         <ol id="walks"></ol>
     </body>
 </html>
