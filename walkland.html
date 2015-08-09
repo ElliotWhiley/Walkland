@@ -287,15 +287,11 @@
 
 		//var selectedTrack = track.id;
 		var flightPlanCoordinates = [];
-<<<<<<< HEAD
-		//console.log(myTracks);
-		for (var i = 0; i < myTracks[selectedTrack].coordinates.length; i++){
-			flightPlanCoordinates[i] = new google.maps.LatLng(myTracks[selectedTrack].coordinates[i][1], myTracks[selectedTrack].coordinates[i][0]);
-=======
+
 		console.log(myTracks);
 		for (var i = 0; i < track.coordinates.length; i++){
 			flightPlanCoordinates[i] = new google.maps.LatLng(track.coordinates[i][1], track.coordinates[i][0]);
->>>>>>> fa5eb36d1475dac99730665f0c32aaad7a5f7ac3
+
 			//flightPlanCoordinates[i] = myTracks[selectedTrack].coordinates;
 			//flightPlanCoordinates[i][0] = myTracks[selectedTrack].coordinates[i][1];
 			//flightPlanCoordinates[i][1] = myTracks[selectedTrack].coordinates[i][0];
