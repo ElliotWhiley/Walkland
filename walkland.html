@@ -4,9 +4,9 @@
 	<!--<link rel="stylesheet" href="/path/to/flickity.css" media="screen">-->
 	<!--<script src="/path/to/flickity.pkgd.min.js"></script>-->
 	<link rel="stylesheet" href="styles.css" media="screen">
-	<style>#map-canvas{ width: 200px; height: 200px; display: block; }</style>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-	
+	<link rel="stylesheet" href="flickity.css" media="screen">
+	<script src="flickity.pkgd.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxYJTC2MrJe_f-6b53TiaaHjonWC0EPxg"></script>
     <script>
     $(document).ready(function() {
@@ -130,12 +130,12 @@
 			$(document).on("click", "#walks a", function(ev) {
 				ev.preventDefault();
 				var track = getTrackByID($(this).data("track-id"));
-				var $walkInfo = $("<div>Title: " + track.name + " Length: " + track.trackLength.toFixed(1) + "km<button id='closeButton'>&times;</button></div>");
+				var $walkInfo = $("<div><h1>" + track.name + "</h1> <h5>" + track.trackLength.toFixed(1) + "km</h5><a id='closeButton'>&times;</a></div>");
 				$walkInfo.append("<div id='map-canvas'></div>");
-				$walkInfo.append("<ol id='photos'></ol>");
+				$walkInfo.append("<div id='photos'></div>");
 				
 				getPhotos(track.name, track.coordinates[0][1], track.coordinates[0][0], track.id); 
-				
+
 				$walkInfo.append("<div id='map-canvas'></div>");
 				$("#walk-info").prepend($walkInfo);
 				showMap($(this).data("track-id"));
@@ -183,9 +183,14 @@
 						 
 						$.each(data.photos.photo, function(index, photo) {
 							var imageString = "https://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg";
-							var $photo = $("<li><img src='" + imageString + "'></li>");
+							var $photo = $("<div><img src='" + imageString + "'></div>");
 							$photo.find("a").css("background-image",imageString);
 							$("#photos").append($photo);
+						});
+						$('#photos').flickity({
+								// options
+								cellAlign: 'left',
+								contain: true
 						});
 					})
 				}
