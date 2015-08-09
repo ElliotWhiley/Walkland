@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
     <meta charset="utf-8">  
 	<!--<link rel="stylesheet" href="/path/to/flickity.css" media="screen">-->
@@ -83,19 +83,23 @@
 							
 						totalLength=totalLength+x;
 					}
+					
+					
+					var walkingTime = totalLength/0.036;
 				
 					// Save track variable with associated variables
 					var	track = {
 						id: j,
 						name: trackName,
 						coordinates: trackCoordinates,
-						trackLength: totalLength
+						trackLength: totalLength,
+						timeInMinutes: walkingTime
 					};
 					myTracks[j] = track;
 					j++;
 				}
 			}
-			//console.log(myTracks);
+			console.log(myTracks);
 		}
 		
 		//console.log(myTracks);
@@ -109,7 +113,6 @@
 				var trackName = myTracks[i].name;
 				var trackID = myTracks[i].id;	
 				var trackLatitude = myTracks[i].coordinates[0][1];
-				console.log(myTracks);
 				var trackLongitude = myTracks[i].coordinates[0][0];
 				if (trackName != null) {
 	//				$walks.append("<li>" + data.vectorQuery.layers["364"].features[i].properties.name + "</li>");
@@ -131,7 +134,6 @@
 					//	cellAlign: 'left',
 					//	contain: true
 					//});
-					console.log(latitude);
 					$.getJSON('https://api.flickr.com/services/rest/?&method=flickr.photos.search&text="' + walkwayName + '"&format=json&api_key=' + key + '&per_page=' + numberOfPhotos + '&lat=' + latitude + '&lon=' + longitude + '&radius=30&radius_units=km&extras=url,geo&has_geo=1&jsoncallback=?',function(data){
 						var $walks = $("#walks");
 						//console.log(data);
