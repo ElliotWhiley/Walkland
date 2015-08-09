@@ -110,13 +110,10 @@
 			$(document).on("click", "#walks a", function(ev) {
 				ev.preventDefault();
 				var track = getTrackByID($(this).data("track-id"));
-<<<<<<< HEAD
 				var $walkInfo = $("<div><h1>" + track.name + "</h1> <div class='justify'><h5>Distance: " + track.trackLength.toFixed(1) + "km</h5><h5>Duration: " + parseInt(track.timeInMinutes) + " minutes</h5><h5>From your location: " + track.distanceToWalk.toFixed(1) + "km</h5></div><a id='closeButton'>&times;</a></div>");
 				$walkInfo.append("<div id='map-canvas'></div>");
-=======
 				var $walkInfo = $("<div><h1>" + track.name + "</h1> <h5>" + track.trackLength.toFixed(1) + "km</h5><a id='closeButton'>&times;</a></div>");
 				$walkInfo.append("<div id='map-container'><div id='map-canvas'></div></div>");
->>>>>>> dd5e66ddcbd239b67073a3209236383eda58d154
 				$walkInfo.append("<div id='photos'></div>");
 				
 				getPhotos(track.name, track.coordinates[0][1], track.coordinates[0][0], track.id); 
