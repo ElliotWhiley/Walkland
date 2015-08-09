@@ -9,6 +9,8 @@
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxYJTC2MrJe_f-6b53TiaaHjonWC0EPxg"></script>
     <script>
     $(document).ready(function() {
+		// Google API Key = AIzaSyAxYJTC2MrJe_f-6b53TiaaHjonWC0EPxg
+		
 		// Flickr API key
 		var key = "a86e25fd6e699aad4601106467321bf3";
 		
@@ -112,10 +114,12 @@
 				$walkInfo.append("<div id='map-canvas'></div>");
 				$("#walk-info").prepend($walkInfo);
 				showMap($(this).data("track-id"));
+				$("body").addClass("detail");
 			});
 			$(document).on("click", "#closeButton", function(ev) {
 				ev.preventDefault();
 				$(this).parent().remove();
+				$("body").removeClass("detail");
 			});
 		}
 		

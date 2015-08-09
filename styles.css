@@ -39,6 +39,10 @@ body{
 	padding:0;
 }
 
+body.detail #walks{
+	display:none;
+}
+
 #logo{
 	margin-top:5px;
 	margin-left:1%;
