@@ -6,9 +6,11 @@
 	<link rel="stylesheet" href="styles.css" media="screen">
 	<style>#map-canvas{ width: 200px; height: 200px; display: block; }</style>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxYJTC2MrJe_f-6b53TiaaHjonWC0EPxg"></script>
     <script>
     $(document).ready(function() {
+		
 		
 		// Google API Key = AIzaSyAxYJTC2MrJe_f-6b53TiaaHjonWC0EPxg
 		
@@ -129,10 +131,12 @@
 				$walkInfo.append("<div id='map-canvas'></div>");
 				$("#walk-info").prepend($walkInfo);
 				showMap($(this).data("track-id"));
+				$("body").addClass("detail");
 			});
 			$(document).on("click", "#closeButton", function(ev) {
 				ev.preventDefault();
 				$(this).parent().remove();
+				$("body").removeClass("detail");
 			});
 			//console.log(myTracks);
 		}
