@@ -111,11 +111,11 @@
 				ev.preventDefault();
 				var track = getTrackByID($(this).data("track-id"));
 				var $walkInfo = $("<div><h1>" + track.name + "</h1> <h5>" + track.trackLength.toFixed(1) + "km</h5><a id='closeButton'>&times;</a></div>");
-				$walkInfo.append("<div id='map-canvas'></div>");
+				$walkInfo.append("<div id='map-container'><div id='map-canvas'></div></div>");
 				$walkInfo.append("<div id='photos'></div>");
 				
 				getPhotos(track.name, track.coordinates[0][1], track.coordinates[0][0], track.id); 
-				$walkInfo.append("<div id='map-canvas'></div>");
+				
 				$("#walk-info").prepend($walkInfo);
 				showMap($(this).data("track-id"));
 				$("body").addClass("detail");
@@ -240,7 +240,7 @@
 		var track = getTrackByID(trackID);		
 		var mapOptions = {
 		  center: { lat: track.coordinates[0][1], lng: track.coordinates[0][0] },
-		  zoom: 11,
+		  zoom: 13,
 		  mapTypeId: "walkland"
 		};
 		
