@@ -65,6 +65,8 @@
 				if (trackName != null) {
 				
 					var totalLength=0;
+					
+					distanceToWalk=lengthOfWalk(realLat,realLon,trackCoordinates[0][0],trackCoordinates[0][1]);
 				
 					for (var z = 0; z < trackCoordinates.length-1; z++) { 
 							
@@ -92,17 +94,18 @@
 						name: trackName,
 						coordinates: trackCoordinates,
 						trackLength: totalLength,
-						timeInMinutes: walkingTime
+						timeInMinutes: walkingTime,
+						distanceToWalk: distanceToWalk
 					};
 					
 					myTracks.push(track);
 					j++;
 				}
 			}
-			console.log(myTracks);
+			//console.log(myTracks);
 		}
 		
-		console.log(myTracks);
+		//console.log(myTracks);
 		
 		// Filters out 'null' named tracks and displays the name of all other tracks
 		var displayData = function() {
@@ -178,6 +181,8 @@
 				"geometry": true,
 				"with_field_names": true
             }
+			
+			
 
             // Initiate the request *asyncronously*
             var request = $.get("http://api.data.linz.govt.nz/api/vectorQuery.json", params);
@@ -188,11 +193,11 @@
                 function(data) {
                     // PROCESS DATA FROM API HERE
                 //    deferred.resolve(elevation);
-					console.log(data);
+					//console.log(data);
 					processData(data);
 					displayData(data);
 					//initialize();
-					console.log(myTracks);
+					//console.log(myTracks);
                 }
             );
 
@@ -211,8 +216,16 @@
         }
 
         logMessage("Getting current position...");
+		
+		
+		var realLat;
+		var realLon;
+		
         navigator.geolocation.getCurrentPosition(function(position) {
             logMessage("Got current position, querying data...");
+			
+			realLon=position.coords.latitude;
+			realLat=position.coords.longitude;
 
             // Request the elevation. The function returns a deferred object --
             // REMEMBER: we won't know the result of the call until it has finished querying the
@@ -228,6 +241,8 @@
                 logMessage("Couldn't get the elevation here :(");
             });
         });
+		
+		
 		
 		
 		/**Function to allow us to find the distance between two coordinates**/
@@ -259,7 +274,7 @@
 		
 		var selectedTrack = 0;
 		var flightPlanCoordinates = [];
-		console.log(myTracks);
+		//console.log(myTracks);
 		for (var i = 0; i < myTracks[selectedTrack].coordinates.length; i++){
 			flightPlanCoordinates[i] = new google.maps.LatLng(myTracks[selectedTrack].coordinates[i][1], myTracks[selectedTrack].coordinates[i][0]);
 			//flightPlanCoordinates[i] = myTracks[selectedTrack].coordinates;
@@ -280,8 +295,8 @@
 		
 		flightPath.setMap(map);
 			
-		console.log(map);
-		console.log(myTracks);
+		//console.log(map);
+		//console.log(myTracks);
 	}
 	//google.maps.event.addDomListener(window, 'load', initialize);
     });
