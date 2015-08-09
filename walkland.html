@@ -33,7 +33,7 @@
 		var myTracks = [];
 		
 		// id of track selected by user
-		var selectedTrack = 0;
+		//var selectedTrack = 0;
 		
         /**
          * Adds a message to the `messageNode`
@@ -55,7 +55,6 @@
 				// Array of track coordinates from API
 				var trackCoordinates = data.vectorQuery.layers["364"].features[i].geometry.coordinates;
 				if (trackName != null) {
-				
 				
 					var totalLength=0;
 				
@@ -87,14 +86,15 @@
 						trackLength: totalLength,
 						timeInMinutes: walkingTime
 					};
-					myTracks[j] = track;
+					
+					myTracks.push(track);
 					j++;
 				}
 			}
 			//console.log(myTracks);
 		}
 		
-		//console.log(myTracks);
+		console.log(myTracks);
 		
 		// Filters out 'null' named tracks and displays the name of all other tracks
 		var displayData = function() {
@@ -112,12 +112,15 @@
 					getPhotos(trackName, trackLatitude, trackLongitude, 1, trackID); 
 					$(document).on("click", "#walks a", function(ev) {
 						ev.preventDefault();
-						var walkInfo = "<div>Title: " + myTracks[i].name + " Length:";
-						
+						//var walkInfo = "<div>Title: " + myTracks[i].name + " Length:";
+						//$walks.append("<div>" + trackID + trackName + trackLength + "</div>");
+						initialize();
 					});
 				}
 			}
+			//console.log(myTracks);
 		}
+		//console.log(myTracks);
 		
 				// Initialises Flickr API call to return images of the selected image
 				var getPhotos = function(walkwayName,latitude,longitude,numberOfPhotos, trackID){
@@ -180,7 +183,8 @@
 					console.log(data);
 					processData(data);
 					displayData(data);
-					//console.log(myTracks);
+					//initialize();
+					console.log(myTracks);
                 }
             );
 
@@ -239,19 +243,21 @@
 		var map = new google.maps.Map(document.getElementById('map-canvas'),
 			mapOptions);
 			
-		var flightPlanCoordinates = [
-			new google.maps.LatLng(-36.96809727923316, 174.51562652593555),
-			new google.maps.LatLng(-36.97704773721164, 174.52684269985488),
-			new google.maps.LatLng(-37.00174050001743, 174.52928740436624)
-		];		
+		//var flightPlanCoordinates = [
+		//	new google.maps.LatLng(-36.96809727923316, 174.51562652593555),
+		//	new google.maps.LatLng(-36.97704773721164, 174.52684269985488),
+		//	new google.maps.LatLng(-37.00174050001743, 174.52928740436624)
+		//];		
 		
-		
-		
-		
-		//var flightPlanCoordinates = [];
-		//for (var i = 0; i < myTracks[selectedTrack.coordinates.length]; i++){
-		//
-		//}
+		var selectedTrack = 0;
+		var flightPlanCoordinates = [];
+		console.log(myTracks);
+		for (var i = 0; i < myTracks[selectedTrack].coordinates.length; i++){
+			flightPlanCoordinates[i] = new google.maps.LatLng(myTracks[selectedTrack].coordinates[i][1], myTracks[selectedTrack].coordinates[i][0]);
+			//flightPlanCoordinates[i] = myTracks[selectedTrack].coordinates;
+			//flightPlanCoordinates[i][0] = myTracks[selectedTrack].coordinates[i][1];
+			//flightPlanCoordinates[i][1] = myTracks[selectedTrack].coordinates[i][0];
+		}
 		
 		//var test = myTracks[0][0];
 		//consoles.log(test);
@@ -269,7 +275,7 @@
 		console.log(map);
 		console.log(myTracks);
 	}
-	google.maps.event.addDomListener(window, 'load', initialize);
+	//google.maps.event.addDomListener(window, 'load', initialize);
     });
 	
     </script>
