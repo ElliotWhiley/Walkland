@@ -35,20 +35,14 @@
 		// Array of all tracks returned from API
 		var myTracks = [];
 		
-		// id of track selected by user
-		//var selectedTrack = 0;
-		
-        /**
-         * Adds a message to the `messageNode`
-         *
-         * @param text  The text, safely cleaned below.
-         */
+        //Adds a message to the `messageNode`
         var logMessage = function(text) {
             var newNode = $('<li>');
             newNode.text(text);
             $('#messages').append(newNode);
         }
 
+		// Find a track using its ID, and return that track object
 		var getTrackByID = function(id){
 			for (var i = 0; i < myTracks.length; i++) {
 				if (myTracks[i].id == id) {
@@ -65,30 +59,23 @@
 				var trackName = data.vectorQuery.layers["364"].features[i].properties.name;
 				// Array of track coordinates from API
 				var trackCoordinates = data.vectorQuery.layers["364"].features[i].geometry.coordinates;
+				// Check if track has a name
 				if (trackName != null) {
-				
 					var totalLength=0;
-					
 					distanceToWalk=lengthOfWalk(realLat,realLon,trackCoordinates[0][0],trackCoordinates[0][1]);
-				
+					// Find total length of track in km
 					for (var z = 0; z < trackCoordinates.length-1; z++) { 
-							
 						var ArrayLat=new Array(trackCoordinates.length);
 						var ArrayLong=new Array(trackCoordinates.length);
-							
-							
 						ArrayLat[z]=trackCoordinates[z][0];
 						ArrayLong[z]=trackCoordinates[z][1];
 						ArrayLat[z+1]=trackCoordinates[z+1][0];
 						ArrayLong[z+1]=trackCoordinates[z+1][1];
-							
-						
 						var x=lengthOfWalk(ArrayLat[z],ArrayLong[z],ArrayLat[z+1],ArrayLong[z+1]);
-							
 						totalLength=totalLength+x;
-					}
+					}		
 					
-					
+					// Calculate time to walk the track
 					var walkingTime = totalLength/0.036;
 				
 					// Save track variable with associated variables
@@ -100,30 +87,23 @@
 						timeInMinutes: walkingTime,
 						distanceToWalk: distanceToWalk
 					};
-					
 					myTracks.push(track);
 					j++;
 				}
 			}
-			//console.log(myTracks);
 		}
-		
-		//console.log(myTracks);
 		
 		// Filters out 'null' named tracks and displays the name of all other tracks
 		var displayData = function() {
 			var $walks = $("#walks");
 			for (var i = 0; i < myTracks.length; i++){
 				// Name of track from API
-				//console.log(myTracks[i]);
 				var trackName = myTracks[i].name;
 				var trackID = myTracks[i].id;	
 				var trackLatitude = myTracks[i].coordinates[0][1];
 				var trackLongitude = myTracks[i].coordinates[0][0];
 				var trackLength = myTracks[i].trackLength;
 				if (trackName != null) {
-	//				$walks.append("<li>" + data.vectorQuery.layers["364"].features[i].properties.name + "</li>");
-					//$walks.append("<a href='#' data-trackID='" + trackID + "'>" + trackName + "</a>");
 					getPhoto(trackName, trackLatitude, trackLongitude, 1, trackID); 
 				}
 			}
@@ -135,7 +115,6 @@
 				$walkInfo.append("<div id='photos'></div>");
 				
 				getPhotos(track.name, track.coordinates[0][1], track.coordinates[0][0], track.id); 
-
 				$walkInfo.append("<div id='map-canvas'></div>");
 				$("#walk-info").prepend($walkInfo);
 				showMap($(this).data("track-id"));
@@ -146,9 +125,7 @@
 				$(this).parent().remove();
 				$("body").removeClass("detail");
 			});
-			//console.log(myTracks);
 		}
-		//console.log(myTracks);
 		
 				// Initialises Flickr API call to return images of the selected image
 				var getPhoto = function(walkwayName,latitude,longitude,numberOfPhotos, trackID){
@@ -159,7 +136,6 @@
 					//});
 					$.getJSON('https://api.flickr.com/services/rest/?&method=flickr.photos.search&text="' + walkwayName + '"&format=json&api_key=' + key + '&per_page=' + numberOfPhotos + '&lat=' + latitude + '&lon=' + longitude + '&radius=30&radius_units=km&extras=url,geo&has_geo=1&jsoncallback=?',function(data){
 						var $walks = $("#walks");
-						console.log(data);
 						 
 						$.each(data.photos.photo, function(index, photo) {
 							var imageString = "url(https://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg)";
@@ -179,7 +155,6 @@
 					//});
 					$.getJSON('https://api.flickr.com/services/rest/?&method=flickr.photos.search&text="' + walkwayName + '"&format=json&api_key=' + key + '&per_page=10&lat=' + latitude + '&lon=' + longitude + '&radius=30&radius_units=km&extras=url,geo&has_geo=1&jsoncallback=?',function(data){
 						var $walks = $("#walks");
-						console.log(data);
 						 
 						$.each(data.photos.photo, function(index, photo) {
 							var imageString = "https://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg";
@@ -195,15 +170,7 @@
 					})
 				}
 		
-        /**
-         * Initiates a GET request to the LINZ Data Service for the elevation layer,
-         * and returns a Deferred that will be resolved when the elevation is returned,
-         * or rejected if there was an error.
-         *
-         * @param lat   The latitude (y) of the position (WSG84 Coordinates)
-         * @param lon   The longitude (x) of the position (WSG84 Coordinates)
-         * @return Deferred
-         */
+        // Create GET request to return track info from LINZ Data Service
         var requestName = function(lat, lon) {
 		
             // Create the Deferred object.
@@ -213,17 +180,13 @@
             var params = {
                 "key": ldsApiKey,
                 "layer": ldsLayerID,
-     //           "x": lon,
 				"x": longitudeCentre,
-       //         "y": lat,
 				"y": latitudeCentre,
 				"max_results": maxResults,
 				"radius": 100000,
 				"geometry": true,
 				"with_field_names": true
             }
-			
-			
 
             // Initiate the request *asyncronously*
             var request = $.get("http://api.data.linz.govt.nz/api/vectorQuery.json", params);
@@ -233,12 +196,8 @@
             request.done(
                 function(data) {
                     // PROCESS DATA FROM API HERE
-                //    deferred.resolve(elevation);
-					//console.log(data);
 					processData(data);
 					displayData(data);
-					//initialize();
-					//console.log(myTracks);
                 }
             );
 
@@ -246,92 +205,144 @@
             // the API rejects the request.
             request.fail(
                 function() {
-                    // When the request failes, we reject the deferred object.
+                    // When the request fails, we reject the deferred object.
                     deferred.reject()
                 }
             );
-
             // Return the deferred. It will "resolve" or "reject" when the a
             // result is available.
             return deferred;
         }
-
-        logMessage("Getting current position...");
-		
-		
 		var realLat;
 		var realLon;
 		
         navigator.geolocation.getCurrentPosition(function(position) {
             logMessage("Got current position, querying data...");
-			
 			realLon=position.coords.latitude;
 			realLat=position.coords.longitude;
-
             // Request the elevation. The function returns a deferred object --
             // REMEMBER: we won't know the result of the call until it has finished querying the
             // remote service and the deferred is resolved.
             var deferred = requestName(position.coords.latitude, position.coords.longitude);
-
-            // If we get a good result, print it:
-        //    deferred.done(function(elevation) {
-        //        logMessage("The elevation here is: " + elevation + "m!");
-         //   });
-            // Otherwise, *sadface*
-            deferred.fail(function() {
-                logMessage("Couldn't get the elevation here :(");
-            });
         });
 		
-		
-		
-		
-		/**Function to allow us to find the distance between two coordinates**/
-		
+		// Allows us to find the distance between two coordinates
 		function lengthOfWalk(lat1, lon1, lat2, lon2) {
 			var R = 6371;
 			var a = 
 					 0.5 - Math.cos((lat2 - lat1) * Math.PI / 180)/2 + 
 					 Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
 					 (1 - Math.cos((lon2 - lon1) * Math.PI / 180))/2;
-
 			return R * 2 * Math.asin(Math.sqrt(a));
 		}
-		
 		
 		function showMap(trackID) {
 		var track = getTrackByID(trackID);		
 		var mapOptions = {
 		  center: { lat: track.coordinates[0][1], lng: track.coordinates[0][0] },
-		  //center: { lat: track.coordinates[0,1], lng: longitudeCentre },
-		  zoom: 11
+		  zoom: 11,
+		  mapTypeId: "walkland"
 		};
 		
-		var map = new google.maps.Map(document.getElementById('map-canvas'),
-			mapOptions);
-			
-		//var flightPlanCoordinates = [
-		//	new google.maps.LatLng(-36.96809727923316, 174.51562652593555),
-		//	new google.maps.LatLng(-36.97704773721164, 174.52684269985488),
-		//	new google.maps.LatLng(-37.00174050001743, 174.52928740436624)
-		//];		
+		// Custom map style
+		var mapStyles = [
+			{
+				"featureType": "all",
+				"elementType": "labels.text.stroke",
+				"stylers": [
+					{
+						"visibility": "on"
+					},
+					{
+						"weight": "2.55"
+					},
+					{
+						"color": "#ffffff"
+					}
+				]
+			},
+			{
+				"featureType": "landscape",
+				"elementType": "geometry",
+				"stylers": [
+					{
+						"color": "#4caf50"
+					}
+				]
+			},
+			{
+				"featureType": "landscape.man_made",
+				"elementType": "geometry",
+				"stylers": [
+					{
+						"visibility": "on"
+					}
+				]
+			},
+			{
+				"featureType": "landscape.natural.landcover",
+				"elementType": "geometry",
+				"stylers": [
+					{
+						"visibility": "on"
+					},
+					{
+						"color": "#509362"
+					}
+				]
+			},
+			{
+				"featureType": "landscape.natural.terrain",
+				"elementType": "geometry",
+				"stylers": [
+					{
+						"visibility": "on"
+					},
+					{
+						"hue": "#00ff0c"
+					}
+				]
+			},
+			{
+				"featureType": "poi",
+				"elementType": "geometry",
+				"stylers": [
+					{
+						"visibility": "simplified"
+					},
+					{
+						"hue": "#00ff08"
+					}
+				]
+			},
+			{
+				"featureType": "poi.park",
+				"elementType": "geometry",
+				"stylers": [
+					{
+						"color": "#388e3c"
+					}
+				]
+			},
+			{
+				"featureType": "water",
+				"elementType": "geometry",
+				"stylers": [
+					{
+						"color": "#8fceec"
+					}
+				]
+			}
+		];
 		
-		//var selectedTrack = 0;
-
-		//var selectedTrack = track.id;
+		// Create google map object
+		var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+		map.mapTypes.set("walkland", new google.maps.StyledMapType(mapStyles, {name: "walkland-style"}));
 		var flightPlanCoordinates = [];
 
-		console.log(myTracks);
 		for (var i = 0; i < track.coordinates.length; i++){
 			flightPlanCoordinates[i] = new google.maps.LatLng(track.coordinates[i][1], track.coordinates[i][0]);
-
-			//flightPlanCoordinates[i] = myTracks[selectedTrack].coordinates;
-			//flightPlanCoordinates[i][0] = myTracks[selectedTrack].coordinates[i][1];
-			//flightPlanCoordinates[i][1] = myTracks[selectedTrack].coordinates[i][0];
 		}
-		
-		//var test = myTracks[0][0];
-		//consoles.log(test);
 		
 		var flightPath = new google.maps.Polyline({
 			path: flightPlanCoordinates,
@@ -340,13 +351,8 @@
 			strokeOpacity: 1.0,
 			strokeWeight: 2
 		});
-		
 		flightPath.setMap(map);
-			
-		//console.log(map);
-		//console.log(myTracks);
 	}
-	//google.maps.event.addDomListener(window, 'load', initialize);
     });
 	
     </script>
