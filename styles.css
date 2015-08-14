@@ -111,6 +111,6 @@ h1 {
 	margin-bottom: 20px;
 }
 
-@media (max-width: 600px){ 
-	#map-container { left: 0; top: auto; height: 50%;}
+@media (max-width: 600px) { 
+	#map-container { left: 0; top: auto; height: 50%; }
  } 
