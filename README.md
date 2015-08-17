@@ -2,11 +2,11 @@
 This Web App "[Walkland](http://www.cheapwwwbreu.com/)" was created at the Auckland Summer of Tech Hackfest over the weekend of August 8-9 2015 by team Warwick 240. We managed to win 2nd place across 10 teams. *NOTE* - we only had 2 days to develop the app, so naturally some of the code isn't very pretty and many shortcuts were made to have something deliverable by the end of the weekend.
 
 ### Team Members
-- [Matthias Bachmann](https://github.com/Matthias-Bachmann)
-- [Marc Langley](https://github.com/marcclangley)
-- [Cameron Brown](https://github.com/TipsyArchmage)
-- [Mitchell Longair](https://github.com/Mitchell1994)
-- [Elliot Whiley](https://github.com/ElliotWhiley)
+- [Matthias Bachmann](https://github.com/Matthias-Bachmann) (Designer)
+- [Marc Langley](https://github.com/marcclangley) (Developer)
+- [Cameron Brown](https://github.com/TipsyArchmage) (Developer)
+- [Mitchell Longair](https://github.com/Mitchell1994) (Developer)
+- [Elliot Whiley](https://github.com/ElliotWhiley) (Developer)
 - [Matthew Buchanan](https://github.com/matthewbuchanan) (Mentor)
 
 ### Our Customers
