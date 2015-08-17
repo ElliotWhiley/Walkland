@@ -32,3 +32,6 @@ Moving forward, we plan to integrate social features such as profiles, ratings a
 
 ### Frameworks
 - jQuery, [Flickity](http://flickity.metafizzy.co/)
+
+### Presentation
+- [PowerPoint](https://github.com/ElliotWhiley/Walkland/raw/documentation/Presentation.pptx)
