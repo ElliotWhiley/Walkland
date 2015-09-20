@@ -7,6 +7,8 @@
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<link rel="stylesheet" href="flickity.css" media="screen">
 	<script src="flickity.pkgd.min.js"></script>
+	<link rel="stylesheet" href="justifiedGallery.min.css" media="screen">
+	<script src="jquery.justifiedGallery.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAxYJTC2MrJe_f-6b53TiaaHjonWC0EPxg"></script>
     <script>
     $(document).ready(function() {
@@ -129,30 +131,26 @@
 		
 				// Initialises Flickr API call to return images of the selected image
 				var getPhoto = function(walkwayName,latitude,longitude,numberOfPhotos, trackID){
-					//$('.main-gallery').flickity({
-					//	// options
-					//	cellAlign: 'left',
-					//	contain: true
-					//});
+	
 					$.getJSON('https://api.flickr.com/services/rest/?&method=flickr.photos.search&text="' + walkwayName + '"&format=json&api_key=' + key + '&per_page=' + numberOfPhotos + '&lat=' + latitude + '&lon=' + longitude + '&radius=30&radius_units=km&extras=url,geo&has_geo=1&jsoncallback=?',function(data){
 						var $walks = $("#walks");
 						 
 						$.each(data.photos.photo, function(index, photo) {
-							var imageString = "url(https://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg)";
+							var imageString = "https://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg";
 							//$walks.append("<li><a href='#' data-track-id='" + trackID + "'> <img src='https://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + ".jpg" + "'/> </a></li>");
-							var $walk = $("<li><a href='#' data-track-id='" + trackID + "'></a></li>");
-							$walk.find("a").css("background-image",imageString);
+							var $walk = $("<a href='#' data-track-id='" + trackID + "'> <img alt='" + walkwayName + "' src='" + imageString + "'/></a>");
+							//$walk.find("a").attr(imageString);
 							$walks.append($walk);
+							$("#walks").justifiedGallery({
+								rowHeight : 200,
+								margins : 4
+							});
 						});
 					})
 				}
 				
 				var getPhotos = function(walkwayName,latitude,longitude, trackID){
-					//$('.main-gallery').flickity({
-					//	// options
-					//	cellAlign: 'left',
-					//	contain: true
-					//});
+
 					$.getJSON('https://api.flickr.com/services/rest/?&method=flickr.photos.search&text="' + walkwayName + '"&format=json&api_key=' + key + '&per_page=10&lat=' + latitude + '&lon=' + longitude + '&radius=30&radius_units=km&extras=url,geo&has_geo=1&jsoncallback=?',function(data){
 						var $walks = $("#walks");
 						 
@@ -164,8 +162,7 @@
 						});
 						$('#photos').flickity({
 								// options
-								cellAlign: 'left',
-								contain: true
+								setGallerySize: false
 						});
 					})
 				}
@@ -361,6 +358,6 @@
 			<img src="logo.svg" id="logo">
 		</div>
 		<div id="walk-info"></div>
-        <ol id="walks"></ol>
+        <div id="walks"></div>
     </body>
 </html>
