@@ -1,7 +1,3 @@
-.walkway-name{
-	font-family: "Helvetica Narrow", sans-serif;
-}
-
 #map-container {
 	width: 50%;
 	position:absolute;
@@ -19,42 +15,36 @@
 	font-family: "Helvetica Narrow", sans-serif;
 }
 
-#walk-info h1, #walk-info h5 {
-	margin-left:2%;
-	color:#616161;
+.walkland-first{
+	min-width:50%;
+	max-width:90%;
+	float:right;
+	position:relative;
+	margin-right:5%;
+	margin-top:5%;
+	margin-bottom:5%;
 }
 
-#photos {
-	width:48%;
-	height:400px;
-	margin-left:1%;
-	margin-right:1%;
-}
-
-#photos div {
+#title-bar{
 	width:100%;
-	padding:auto;
+	background-image:url("backdrop.jpg");
+	background-repeat: no-repeat;
+	overflow:hidden;
 }
 
-#photos div img{
-	width:100%;
+.walkland-second{
+	width:30%;
+	float:right;
 }
 
 body {
-	background-color:#f5f5f5;
+	background-color:#bcbcbc;
 	margin:0;
 	padding:0;
 }
 
 body.detail #walks {
 	display:none;
-}
-
-#logo {
-	margin-top:5px;
-	margin-left:1%;
-	max-height:80%;
-	max-width:10%;
 }
 
 html {
@@ -70,16 +60,6 @@ html {
 	color:white;
 	font-size:40px;
 	cursor:pointer;
-}
-
-.navigation-bar {
-	position:relative;
-	z-index:1;
-	margin-bottom:1%;
-	background-color:#388e3c;
-	width:auto;
-	height:50px;
-	box-shadow: 0px 2px 2px #606060;
 }
 
 h5 { 
