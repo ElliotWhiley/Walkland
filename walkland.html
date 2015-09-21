@@ -114,12 +114,16 @@
 			getPhotos(track.name, track.coordinates[0][1], track.coordinates[0][0], track.id); 
 			$("#walk-info").prepend($walkInfo);
 			showMap($(this).data("track-id"));
+			$("#walkland").removeClass("walkland-first");
+			$("#walkland").addClass("walkland-second");
 			$("body").addClass("detail");
 		});
 		// On clicking the 'X' in the top right hand corner of the 2nd page, return back to the 1st page
 		$(document).on("click", "#closeButton", function(ev) {
 			ev.preventDefault();
 			$(this).parent().remove();
+			$("#walkland").removeClass("walkland-second");
+			$("#walkland").addClass("walkland-first");
 			$("body").removeClass("detail");
 		});
 	}
@@ -138,7 +142,7 @@
 							$walks.append($walk);
 							$("#walks").justifiedGallery({
 								rowHeight : 200,
-								margins : 4
+								margins : 8
 							});
 						});
 					})
