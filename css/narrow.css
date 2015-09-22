@@ -32,6 +32,7 @@
 	width:calc(100% - 5px);
 	left:5px;
 	right:5px;
+	top:0px;
 }
 
 #second-panel{
@@ -39,6 +40,7 @@
 	width:calc(100% - 10px);
 	left:5px;
 	right:5px;
+	top:0px;
 	position:relative;
 }
 

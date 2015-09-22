@@ -1,6 +1,5 @@
 .walkland-first{
-	min-width:50%;
-	max-width:90%;
+	width:50%;
 	float:right;
 	position:relative;
 	margin-right:2%;
@@ -22,9 +21,10 @@
 }
 
 #map-container {
-	height:91%;
+	height:92.4%;
 	overflow:hidden;
 	width:100%;
+	left:5px;
 	margin: 0;
 }
 
@@ -32,6 +32,7 @@
 	max-width:calc(50% - 5px);
 	height:100%;
 	left:5px;
+	top:0;
 }
 
 #second-panel{
@@ -47,6 +48,5 @@
 	height:75%;
 	width:100%;
 	position:absolute;
-	overflow:hidden;
 	padding:0;
 }
