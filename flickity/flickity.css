@@ -114,7 +114,7 @@ External library for touch-responsive, flickable image galleries.
 .flickity-page-dots {
   position: absolute;
   width: 100%;
-  bottom: -25px;
+  top: 90%;
   padding: 0;
   margin: 0;
   list-style: none;
@@ -131,7 +131,7 @@ External library for touch-responsive, flickable image galleries.
   width: 10px;
   height: 10px;
   margin: 0 8px;
-  background: #333;
+  background: #ffffff;
   border-radius: 50%;
   filter: alpha(opacity=25); /* IE8 */
   opacity: 0.25;

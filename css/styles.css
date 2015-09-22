@@ -1,0 +1,124 @@
+#map-canvas {
+	height: 100%;
+	width: 100%;
+}
+
+#walk-info-wrapper{
+	top:0;
+	height:100%;
+}
+
+.hidden{
+	display:none;
+}
+
+@font-face{
+	font-family:title-font;
+	src:url("gnuolane rg.ttf");
+}
+
+#title-bar{
+	width:100%;
+	margin-top:45px;
+	padding:10px;
+	border-bottom:5px solid #727272;
+	background-image:url("backdrop.jpg");
+	background-repeat: no-repeat;
+	overflow:hidden;
+}
+
+#track-name,#map-title{
+	text-align:center;
+	font-family:title-font;
+	color:#ffffff;
+	text-shadow: 2px 2px #444444;
+	font-size:2em;
+	margin-top:.3em;
+	margin-bottom:.2em;
+	padding:0;
+}
+
+.jg-entry{
+	box-shadow: 0px 0px 5px #222222;
+}
+
+.gallery-cell{
+	height:100%;
+	display:block;
+    margin:auto;
+}
+
+.image-wrapper{
+	min-width:100%;
+	background-color:#727272;
+}
+
+.flickity-viewport{
+	height:80%;
+}
+
+.flickity-viewport *{
+	height:100%;
+}
+
+body.detail{
+	background-color:#bcbcbc;
+}
+
+body.detail #walks {
+	display:none;
+}
+
+body, html {
+	margin:0;
+	padding:0;
+	height:100%;
+	overflow-x: hidden;
+}
+
+#closeButton {
+	position:absolute;
+	top:5px;
+	right:15px;
+	z-index:2;
+	color:white;
+	font-size:40px;
+	cursor:pointer;
+}
+
+#extra-info{
+	font-family:title-font;
+	color:#ffffff;
+	text-align:center;
+	text-shadow: 2px 2px #444444;
+	font-size:1.5em;
+	padding:0;
+	margin-left:5px;
+	margin-right:-5px;
+	margin-top:-2px;
+	height:4.75em;
+	padding-top:.5em;
+	background-color:#388e3c;
+}
+
+#extra-info p{
+	margin:2px;
+}
+
+#nav-bar{
+	height:45px;
+	top:0;
+	width:100%;
+	position:fixed;
+	background-color:#4caf50;
+	z-index:9999;
+	box-shadow: 2px 0px 5px #222222;
+}
+
+#logo{
+	height:95%;
+}
+
+@media (max-width: 600px) { 
+	#map-container { left: 0; top: auto; height: 50%; }
+ } 
