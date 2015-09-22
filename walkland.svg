@@ -15,7 +15,10 @@
    id="svg5314"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="walkland.svg">
+   sodipodi:docname="walkland.svg"
+   inkscape:export-filename="C:\xampp\htdocs\Walkland\walkland.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs5316">
     <filter
@@ -189,7 +192,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
      inkscape:cx="296.38846"
-     inkscape:cy="148.66782"
+     inkscape:cy="149.1729"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"

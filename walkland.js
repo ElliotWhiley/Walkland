@@ -98,14 +98,14 @@ $(document).ready(function() {
 			var $firstPanel = $("<div id='first-panel'></div>");
 			var $secondPanel = $("<div id='second-panel'></div>");
 			var $extraInfo = $("<div id='extra-info'></div>");
-			$secondPanel.append("<div id='map-title'>Where to Go</div>");
-			$firstPanel.append("<div id='track-name'>" + track.name + "</div>");
+			$secondPanel.append("<div id='map-title'><div>Where to Go<div></div>");
+			$firstPanel.append("<div id='track-name'><div>" + track.name + "<div></div>");
 			$firstPanel.append("<div class='main-gallery'></div>");
 			$extraInfo.append("<p>Duration: " + parseInt(track.timeInMinutes) + " minutes</p>");
 			$extraInfo.append("<p>From your location: " + track.distanceToWalk.toFixed(1) + "km</p>");
 			$extraInfo.append("<p>Distance: " + track.trackLength.toFixed(1) + "km</p>");
 			$firstPanel.append($extraInfo);
-			$walkInfo.append("<a id='closeButton'>&times;</a>");
+			$("#nav-bar").append("<div id='closeButton'><div>&times;</div></div>");
 			$secondPanel.append("<div id='map-container'><div id='map-canvas'></div></div>");
 			$walkInfo.append($firstPanel);
 			$walkInfo.append($secondPanel);
@@ -120,7 +120,8 @@ $(document).ready(function() {
 		// On clicking the 'X' in the top right hand corner of the 2nd page, return back to the 1st page
 		$(document).on("click", "#closeButton", function(ev) {
 			ev.preventDefault();
-			$(this).parent().remove();
+			document.getElementById("walk-info-wrapper").remove();
+			$(this).remove();
 			$("#walkland").removeClass("walkland-second");
 			$("#walkland").addClass("walkland-first");
 			$("body").removeClass("detail");
