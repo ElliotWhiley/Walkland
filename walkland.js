@@ -141,10 +141,17 @@ $(document).ready(function() {
 				var $walk = $("<a href='#' data-track-id='" + trackID + "'> <img alt='" + walkwayName + "' src='" + imageString + "'/></a>");
 				//$walk.find("a").attr(imageString);
 				$walks.append($walk);
-				$("#walks").justifiedGallery({
-					rowHeight : 200,
-					margins : 8
-				});
+				if (screen.height > screen.width){
+					$("#walks").justifiedGallery({
+						rowHeight : 400,
+						margins : 8,
+					});
+				}else{
+					$("#walks").justifiedGallery({
+						rowHeight : 200,
+						margins : 8
+					});
+				}
 			});
 		})
 	}

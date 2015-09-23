@@ -19,7 +19,6 @@
 
 #title-bar{
 	width:100%;
-	margin-top:45px;
 	padding:10px;
 	background-image:url("backdrop.jpg");
 	background-repeat: no-repeat;
@@ -31,7 +30,6 @@
 	font-family:title-font;
 	color:white;
 	text-shadow: 2px 2px #444444;
-	font-size:2em;
 	width:100%;
 }
 
@@ -39,7 +37,6 @@
 	width:calc(100% - 6px);
 	margin-top:5px;
 	margin:bottom:5px;
-	height:3em;
 	background-color:#727272;
 	padding:.2em;
 	position:relative;
@@ -65,16 +62,15 @@
 }
 
 .main-gallery{
-	background-color:#999999;
+	background-color:#424242;
 }
 
 .image-wrapper{
 	min-width:100%;
-	background-color:#bcbcbc;
+	background-color:#424242;
 }
 
 .flickity-viewport{
-	height:80%;
 	width:100%;
 }
 
@@ -87,6 +83,7 @@ body.detail #walks {
 }
 
 body, html {
+	background-color:#bcbcbc;
 	margin:0;
 	padding:0;
 	height:100%;
@@ -95,8 +92,6 @@ body, html {
 
 #closeButton {
 	color:white;
-	font-size:65px;
-	top:-10px;
 	float:right;
 	position:relative;
 	margin-right:10px;
@@ -123,7 +118,6 @@ body, html {
 }
 
 #nav-bar{
-	height:50px;
 	top:0;
 	width:100%;
 	position:fixed;
@@ -164,7 +158,11 @@ body, html {
 		width:100%;
 		left:5px;
 	}
-
+	
+	.flickity-viewport{
+		height:80%;
+	}
+	
 	#map-container {
 		height:92.4%;
 		overflow:hidden;
@@ -200,6 +198,27 @@ body, html {
 		font-size:1.5em;
 		height:4.75em;
 	}
+	
+	#track-name div,#map-title div{
+		font-size:2em;
+	}
+	
+	#track-name ,#map-title{
+		height:3em;
+	}
+
+	#nav-bar{
+		height:50px;
+	}
+	
+	#title-bar{
+		margin-top:50px;
+	}
+	
+	#closeButton {
+		font-size:65px;
+		top:-10px;
+	}
  }
  
 @media all and (orientation:portrait){
@@ -211,18 +230,21 @@ body, html {
 	}
 
 	.walkland-second{
-		max-width:50%;
-		min-width:auto;
-		margin-left:18%;
+		width:50%;
+		margin-left:25%;
 		position:relative;
 	}
 
 	.main-gallery{
-		height:60%;
+		height:600px;
 		width:100%;
 		left:5px;
 	}
 
+	.flickity-viewport{
+		height:80%;
+	}
+	
 	#map-container {
 		bottom:10%;
 		height:100%;
@@ -231,7 +253,7 @@ body, html {
 	}
 
 	#first-panel{
-		height:60%;
+		overflow:auto;
 		width:calc(100% - 5px);
 		left:5px;
 		right:5px;
@@ -257,7 +279,28 @@ body, html {
 	}
 	
 	#extra-info{
-		font-size:140%;
-		height:30%;
+		font-size:3em;
+		height:4.5em;
+	}
+	
+	#track-name div,#map-title div{
+		font-size:3em;
+	}
+	
+	#track-name ,#map-title{
+		height:4em;
+	}
+	
+	#nav-bar{
+		height:100px;
+	}
+	
+	#title-bar{
+		margin-top:100px;
+	}
+	
+	#closeButton {
+		font-size:120px;
+		top:-20px;
 	}
 }
